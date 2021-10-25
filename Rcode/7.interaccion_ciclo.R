@@ -30,6 +30,22 @@ library(tidyverse)
 library("viridis")
 library("lmerTest")
 library("lubridate")
+library(ggpubr)
+library(lmerTest)
+library(nlme)
+library(emmeans)
+library("car")
+#library("gplots")    
+library("ggplot2")       
+library("plotrix")  
+library("lattice")
+library("latticeExtra")
+library(multcompView)
+#library(effects)
+library(dplyr)
+library(xtable)
+library(multcomp)
+??cld.emmGrid
 today ()
 col.l2 <- colorRampPalette (c("orange","blue"))(50)
 
@@ -154,10 +170,94 @@ ggarrange(plot.1, plot.2, ncol=2, nrow=1, common.legend = TRUE )
 ciclo.testigos$bloque <- as.factor (ciclo.testigos$bloque)
 ciclo.testigos$env <- as.factor (ciclo.testigos$env)
 
-##### e.z21.gd #####
+list.geno <- c("Kenia","Prior","Logan",  
+               "Baronesse","Berolina",
+               "Bowman","Quebracho",   
+               "Danuta", "Carumbe","Ceibo") 
+
+
+head (ciclo.testigos )
+
+##### e.a.gd #####
 e.a.gd.mod.1 <- lmer (e.a.gd ~ (1|bloque) + genotipo + env + genotipo * env , data = ciclo.testigos)
 
 anova(e.a.gd.mod.1)
+
+
+##e.z21.gd 
+e.z21.gd.mod.1 <- lmer (e.z21.gd ~ (1|bloque) + genotipo + env + genotipo * env , data = ciclo.testigos)
+
+anova(e.z21.gd.mod.1)
+
+## z21.z31.gd 
+z21.z31.gd.mod.1 <- lmer ( z21.z31.gd  ~ (1|bloque) + genotipo + env + genotipo * env , data = ciclo.testigos)
+
+anova (z21.z31.gd.mod.1)
+
+
+##z31.a.gd 
+z31.a.gd.mod.1 <- lmer ( z31.a.gd   ~ (1|bloque) + genotipo + env + genotipo * env , data = ciclo.testigos)
+anova (z31.a.gd.mod.1)
+
+
+## funcion que calcula los contrastes 
+#data.model = e.a.gd.mod.1
+#trait = "e.a.gd"
+run_contrastes <- function (data.model = NULL, trait = NULL){
+  
+  dt.c <- bind_rows (lapply( list.geno, function (filt.geno) {
+    
+    #filt.geno ="Prior"
+   print (str_c (trait,"_",filt.geno))
+    em.e.a.gd.geno <- emmeans (data.model, "env",
+                                at = list (genotipo = filt.geno))
+    
+    cr.e.a.gd.geno <- contrast (em.e.a.gd.geno ,
+                                  method = "pairwise")
+
+    em.e.a.gd.geno <- cbind (genotipo = filt.geno, trait =trait,
+                              cld (em.e.a.gd.geno, sort=FALSE))
+    
+    
+  }))
+  
+  
+}
+
+####### 
+contrastes_e.a.gd <- run_contrastes (data.model = e.a.gd.mod.1, trait = "e.a.gd" )
+
+contrastes_z21.z31.gd <- run_contrastes (data.model = z21.z31.gd.mod.1, trait = "z21.z31.gd" )
+
+contrastes_z31.a.gd <- run_contrastes (data.model = z31.a.gd.mod.1, trait = "z31.a.gd" )
+
+ contrastes_suma_termica <- bind_rows (contrastes_e.a.gd,contrastes_z21.z31.gd, contrastes_z31.a.gd  )
+
+ write_csv2 (contrastes_suma_termica, file= "./Data/procdata/contrastes_suma_termica.csv")
+
+
+
+
+em.e.a.gd.Kenia <- emmeans (e.a.gd.mod.1, "env",
+                                     at = list (genotipo = "Kenia"))
+
+
+
+
+
+em.e.a.gd.Kenia <- cbind (genotipo = "Kenia", parametro ="e.a.gd",
+                          cld (em.e.a.gd.Kenia, sort=FALSE))
+
+
+
+
+
+
+
+
+
+
+
 e.a.gd.mod.1.em <- emmeans (e.a.gd.mod.1, ~ genotipo*env)
 
 e.a.gd.mod.1.sum <- summary (e.a.gd.mod.1.em  , infer = c(TRUE,TRUE),
@@ -169,10 +269,21 @@ e.a.gd.mod.1.sum.1 <- e.a.gd.mod.1.sum %>%
                      dplyr::select (genotipo, env, e.a.gd,SE, lower.CL, upper.CL)
 
 
+
+
 write.table (e.a.gd.mod.1.sum.1, file = "./Data/procdata/e.a.gd.mod.1.sum.1.txt", 
              append = FALSE, quote = TRUE, sep = ",",
              eol = "\n", na = "NA", dec = ".", row.names = FALSE,
              col.names = TRUE)
+
+unique (e.a.gd.mod.1.em$)
+
+
+
+
+
+
+
 
 e.a.gd.mod.1.sum.2 <- read.table ("./Data/procdata/e.a.gd.mod.1.sum.1.txt" ,
                                  header = TRUE, sep = ",",dec = ".",
