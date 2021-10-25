@@ -72,7 +72,7 @@ hist(x = ciclo.gd.E1$e.a.gd, main = "Ciclo E1",
 
 ####  E2 #############
 
-E2_ciclo <- read.table ("./Data/procdata/outpout.HAUN/ciclo.gd.RIL.E2.txt" ,
+E2_ciclo <- read.table ("./Data/procdata/ciclo.gd.RIL.E2.txt" ,
                         header = TRUE, sep = ",",dec = ".",
                         na.strings = "NA" )
 
@@ -83,21 +83,19 @@ E2_ciclo <- read.table ("./Data/procdata/outpout.HAUN/ciclo.gd.RIL.E2.txt" ,
 
 
 E2_ciclo.1 <- E2_ciclo %>%
-  mutate (env = ambiente ) %>%
-  select (-ambiente)
+              dplyr::mutate (env = ambiente ) %>%
+              dplyr::select (-ambiente)
 #View(E2_ciclo.1.1)
 
-
-
 E2_ciclo.1.1 <- E2_ciclo.1 %>%
-  mutate (pot =str_c (E2_ciclo.1$env,E2_ciclo.1$bloque,E2_ciclo.1$parcela)) %>%
-  mutate (ambiente = "E2")
+                dplyr::mutate (pot =str_c (E2_ciclo.1$env,E2_ciclo.1$bloque,E2_ciclo.1$parcela)) %>%
+                dplyr::mutate (ambiente = "E2")
 
 
 ciclo.gd.E2 <- E2_ciclo.1.1 %>%
-  select(genotipo, anio,ambiente, env, pot, bloque,parcela,e.z21.gd, 
-         z21.z31.gd,z31.a.gd,e.a.gd) %>% 
-  arrange (pot)
+               dplyr::select(genotipo, anio,ambiente, env, pot, bloque,parcela,e.z21.gd, 
+                             z21.z31.gd,z31.a.gd,e.a.gd) %>% 
+               dplyr::arrange (pot)
 
 
 dim(ciclo.gd.E2)
@@ -105,8 +103,8 @@ dim(ciclo.gd.E2)
 #### ESTO LO PRECISAMOS?? ANTES LO USABAMOS APARENTEMENTE #####
 pot.E2 <- as.character (unique(NFH.completo.E2.1$pot))
 
-ciclo.gd.E2.1 <- ciclo.gd.E2 %>%
-  filter  (pot %in% pot.E2)
+ciclo.gd.E2.1 <- ciclo.gd.E2 #%>%
+                 #dplyr::filter  (pot %in% pot.E2)
 
 dim (ciclo.gd.E2.1)
 
@@ -117,9 +115,7 @@ hist(x = ciclo.gd.E2$e.a.gd, main = "Ciclo E2",
 
 
 #### E3 ###################
-
-
-E3_ciclo <- read.table ("./Data/procdata/outpout.HAUN/ciclo.gd.RIL.E3.txt" ,
+E3_ciclo <- read.table ("./Data/procdata/ciclo.gd.RIL.E3.txt" ,
                         header = TRUE, sep = ",",dec = ".",
                         na.strings = "NA" )
 
@@ -128,8 +124,8 @@ E3_ciclo <- read.table ("./Data/procdata/outpout.HAUN/ciclo.gd.RIL.E3.txt" ,
 #             rename (env = ambiente)
 
 E3_ciclo.1 <- E3_ciclo %>%
-  select (-ambiente) %>% 
-  mutate (env=3)
+              dplyr::select (-ambiente) %>% 
+              dplyr::mutate (env=3)
 
 
 #E3_ciclo.1 <- E3_ciclo %>%
@@ -139,25 +135,25 @@ E3_ciclo.1 <- E3_ciclo %>%
 
 
 E3_ciclo.1.1 <- E3_ciclo.1 %>%
-  mutate (pot =str_c (E3_ciclo.1$env,E3_ciclo.1$bloque,E3_ciclo.1$parcela)) %>%
-  mutate (ambiente = "E3")
+                dplyr::mutate (pot =str_c (E3_ciclo.1$env,E3_ciclo.1$bloque,E3_ciclo.1$parcela)) %>%
+                dplyr::mutate (ambiente = "E3")
 
 
 ciclo.gd.E3 <- E3_ciclo.1.1 %>%
-  select(genotipo, anio,ambiente, env, pot, bloque,parcela,e.z21.gd, 
-         z21.z31.gd,z31.a.gd,e.a.gd) %>% 
-  arrange (pot)
+               dplyr::select(genotipo, anio,ambiente, env, pot, bloque,parcela,e.z21.gd, 
+                              z21.z31.gd,z31.a.gd,e.a.gd) %>% 
+               dplyr::arrange (pot)
 
 dim(ciclo.gd.E3)
 
 #### ESTO LO PRECISAMOS?? ANTES LO USABAMOS APARENTEMENTE #####
 
-pot.E3 <- as.character (unique(NFH.completo.E3$pot))
+#pot.E3 <- as.character (unique(NFH.completo.E3$pot))
 
-ciclo.gd.E3$pot
+#ciclo.gd.E3$pot
 
-ciclo.gd.E3.1 <- ciclo.gd.E3 %>%
-  dplyr::filter (pot%in%pot.E3)
+ciclo.gd.E3.1 <- ciclo.gd.E3 #%>%
+                 #dplyr::filter (pot%in%pot.E3)
 
 hist(x = ciclo.gd.E3$e.a.gd)
 hist(x = ciclo.gd.E3$e.a.gd, main = "Ciclo E3", 
@@ -165,7 +161,7 @@ hist(x = ciclo.gd.E3$e.a.gd, main = "Ciclo E3",
 
 #### E4 ##############
 
-E4_ciclo <- read.table ("./Data/procdata/outpout.HAUN/ciclo.gd.RIL.E4.txt" ,
+E4_ciclo <- read.table ("./Data/procdata/ciclo.gd.RIL.E4.txt" ,
                         header = TRUE, sep = ",",dec = ".",
                         na.strings = "NA" )
 
@@ -174,8 +170,8 @@ E4_ciclo <- read.table ("./Data/procdata/outpout.HAUN/ciclo.gd.RIL.E4.txt" ,
 #             rename (env = ambiente)
 
 E4_ciclo.1 <- E4_ciclo %>%
-  select (-ambiente) %>% 
-  mutate (env=4)
+              dplyr::select (-ambiente) %>% 
+              dplyr::mutate (env=4)
 
 
 #E4_ciclo.1 <- E4_ciclo %>%
@@ -185,25 +181,25 @@ E4_ciclo.1 <- E4_ciclo %>%
 
 
 E4_ciclo.1.1 <- E4_ciclo.1 %>%
-  mutate (pot =str_c (E4_ciclo.1$env,E4_ciclo.1$bloque,E4_ciclo.1$parcela)) %>%
-  mutate (ambiente = "E4")
+                dplyr::mutate (pot =str_c (E4_ciclo.1$env,E4_ciclo.1$bloque,E4_ciclo.1$parcela)) %>%
+                dplyr::mutate (ambiente = "E4")
 
 
 ciclo.gd.E4 <- E4_ciclo.1.1 %>%
-  select(genotipo, anio,ambiente, env, pot, bloque,parcela,e.z21.gd, 
-         z21.z31.gd,z31.a.gd,e.a.gd) %>% 
-  arrange (pot)
+               dplyr::select (genotipo, anio,ambiente, env, pot, bloque,parcela,e.z21.gd, 
+                              z21.z31.gd,z31.a.gd,e.a.gd) %>% 
+               dplyr::arrange (pot)
 
 dim(ciclo.gd.E4)
 
 #### ESTO LO PRECISAMOS?? ANTES LO USABAMOS APARENTEMENTE #####
 
-pot.E4 <- as.character (unique(NFH.completo.E4$pot))
+#pot.E4 <- as.character (unique(NFH.completo.E4$pot))
 
-ciclo.gd.E4$pot
+# ciclo.gd.E4$pot
 
-ciclo.gd.E4.1 <- ciclo.gd.E4 %>%
-  dplyr::filter (pot%in%pot.E4)
+ciclo.gd.E4.1 <- ciclo.gd.E4 #%>%
+                 #dplyr::filter (pot%in%pot.E4)
 
 
 dim(ciclo.gd.E4.1)
@@ -214,26 +210,26 @@ hist(x = ciclo.gd.E4$e.a.gd, main = "Ciclo E4",
 ###########################################
 
 gd.E1  <- ciclo.gd.E1 %>%
-  mutate (year = 2016)%>%
-  mutate (SD = "early")%>%
-  mutate (temp =12.28)
+          dplyr::mutate (year = 2016)%>%
+          dplyr::mutate (SD = "early")%>%
+          dplyr::mutate (temp =12.28)
 
-dim (NFH.completo.E1)
+#dim (NFH.completo.E1)
 
 gd.E2 <- ciclo.gd.E2 %>%
-  mutate (year = 2016)%>%
-  mutate (SD = "late")%>%
-  mutate (temp =17.44)
+         dplyr::mutate (year = 2016)%>%
+         dplyr::mutate (SD = "late")%>%
+         dplyr::mutate (temp =17.44)
 
 gd.E3 <- ciclo.gd.E3 %>%
-  mutate (year = 2017)%>%
-  mutate (SD = "early")%>%
-  mutate (temp =14.66)
+        dplyr::mutate (year = 2017)%>%
+        dplyr::mutate (SD = "early")%>%
+        dplyr::mutate (temp =14.66)
 
 gd.E4 <-  ciclo.gd.E4 %>%
-  mutate (year = 2017)%>%
-  mutate (SD = "late")%>%
-  mutate (temp =19.23)
+          dplyr::mutate (year = 2017)%>%
+          dplyr::mutate (SD = "late")%>%
+          dplyr::mutate (temp =19.23)
 
 gd.env <- rbind (gd.E1,
                  gd.E2,
@@ -243,18 +239,15 @@ gd.env <- rbind (gd.E1,
 gd.env$pot <- as.character(gd.env$pot)
 
 gd.env <- gd.env %>%
-  arrange (pot)
+          dplyr::arrange (pot)
 
-pot.NFH.env.1 <- as.character(unique (NFH.env.1$pot))
+#pot.NFH.env.1 <- as.character(unique (NFH.env.1$pot))
 
-
-
-
-gd.env.1 <- gd.env %>%
-  filter (pot %in% pot.NFH.env.1) 
+gd.env.1 <- gd.env #%>%
+            #filter (pot %in% pot.NFH.env.1) 
 
 gd.env.1 <- gd.env.1 %>%
-  arrange (pot)
+           dplyr::arrange (pot)
 dim(gd.env.1)
 
 NFH.env.1$pot <- as.character(NFH.env.1$pot)
@@ -290,9 +283,6 @@ gd.env.1 %>%
     name = "SD", guide = "legend"
   ) +
   theme_ridges(grid = FALSE)
-
-
-
 
 write.table (gd.env.1, file = "./Data/procdata/gd.env.1.txt",
              append = FALSE, quote = TRUE, sep = ",",
