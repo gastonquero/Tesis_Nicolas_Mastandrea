@@ -208,15 +208,21 @@ run_contrastes <- function (data.model = NULL, trait = NULL){
   dt.c <- bind_rows (lapply( list.geno, function (filt.geno) {
     
     #filt.geno ="Prior"
-   print (str_c (trait,"_",filt.geno))
-    em.e.a.gd.geno <- emmeans (data.model, "env",
-                                at = list (genotipo = filt.geno))
+    print (str_c (trait,"_",filt.geno))
+    em.geno <- emmeans (data.model, "env",
+                        at = list (genotipo = filt.geno))
     
-    cr.e.a.gd.geno <- contrast (em.e.a.gd.geno ,
-                                  method = "pairwise")
-
-    em.e.a.gd.geno <- cbind (genotipo = filt.geno, trait =trait,
-                              cld (em.e.a.gd.geno, sort=FALSE))
+    cr.geno <- contrast (em.geno ,
+                         method = "pairwise")
+    
+    cr.geno.1 <- as.data.frame (cr.geno )
+    
+    contrastes <- tibble( genotipo = filt.geno, trait =trait, cr.geno.1)
+    
+    write_csv2 (contrastes, file= str_c ("./Data/procdata/contrastes","_", trait,"_", filt.geno, ".csv"))
+    
+    em.geno <- cbind (genotipo = filt.geno, trait =trait,
+                      cld (em.geno, sort=FALSE))
     
     
   }))
@@ -234,9 +240,6 @@ contrastes_z31.a.gd <- run_contrastes (data.model = z31.a.gd.mod.1, trait = "z31
  contrastes_suma_termica <- bind_rows (contrastes_e.a.gd,contrastes_z21.z31.gd, contrastes_z31.a.gd  )
 
  write_csv2 (contrastes_suma_termica, file= "./Data/procdata/contrastes_suma_termica.csv")
-
-
-
 
 em.e.a.gd.Kenia <- emmeans (e.a.gd.mod.1, "env",
                                      at = list (genotipo = "Kenia"))
