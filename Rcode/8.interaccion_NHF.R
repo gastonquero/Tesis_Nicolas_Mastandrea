@@ -73,7 +73,7 @@ testigos <- c("testigo1","testigo2","testigo3","testigo4",
               "testigo9","testigo10")
 
 tes.geno <- c("Kenia","Prior","Logan",  
-              "Baronesse","Berolina",
+              "Baronesse",
               "Bowman","Quebracho",   
               "Danuta", "Carumbe","Ceibo") 
 
@@ -84,7 +84,7 @@ hoja.testigos <-hoja.testigos %>%
                 dplyr::rename (env = ambiente)
 
 list.geno <- c("Kenia","Prior","Logan",  
-               "Baronesse","Berolina",
+               "Baronesse",
                "Bowman","Quebracho",   
                "Danuta", "Carumbe","Ceibo") 
 
