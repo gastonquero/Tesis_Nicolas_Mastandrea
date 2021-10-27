@@ -31,7 +31,7 @@ library("viridis")
 library("lmerTest")
 library("lubridate")
 library("stringr")
-
+library(multcomp)
 library(forcats)
 today ()
 col.l2 <- colorRampPalette (c("orange","blue"))(50)
@@ -93,7 +93,7 @@ head (hoja.testigos)
 
 hoja.testigos$bloque <- as.factor (hoja.testigos$bloque)
 
-
+head (hoja.testigos )
 
 ##### e.a.gd #####
 haun.NFH.mod.1 <- lmer (haun.NFH ~ (1|bloque) + genotipo + env + genotipo * env , data = hoja.testigos)
@@ -133,6 +133,27 @@ contrastes_haun.NFH <- run_contrastes (data.model = haun.NFH.mod.1, trait = "hau
 
 
 write_csv2 (contrastes_haun.NFH , file= "./Data/procdata/contrastes_hojas.csv")
+
+###### haun.Z31 #####
+haun.Z31.mod.1 <- lmer (haun.Z31 ~ (1|bloque) + genotipo + env + genotipo * env , data = hoja.testigos)
+
+anova (haun.Z31.mod.1)
+
+contrastes_haun.Z31 <- run_contrastes (data.model = haun.Z31.mod.1, trait = "haun.Z31" )
+
+
+write_csv2 (contrastes_haun.Z31 , file= "./Data/procdata/contrastes_haun.Z31.csv")
+
+
+###### deltaH.NFH.Z31 #####
+deltaH.NFH.Z31.mod.1 <- lmer (deltaH.NFH.Z31 ~ (1|bloque) + genotipo + env + genotipo * env , data = hoja.testigos)
+
+anova (deltaH.NFH.Z31.mod.1)
+
+contrastes_deltaH.NFH.Z31 <- run_contrastes (data.model = deltaH.NFH.Z31.mod.1, trait = "deltaH.NFH.Z31" )
+
+
+write_csv2 (contrastes_deltaH.NFH.Z31 , file= "./Data/procdata/contrastes_deltaH.NFH.Z31.csv")
 
 
 
