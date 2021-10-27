@@ -127,7 +127,8 @@ tes.geno <- c("Kenia","Prior","Logan",
               "Danuta", "Carumbe","Ceibo") 
 
 ciclo.testigos <- ciclo.gd %>% 
-                  dplyr::filter (genotipo %in% tes.geno)
+                  dplyr::filter (genotipo %in% tes.geno) %>%
+                  dplyr::filter (genotipo != "Berolina")
 
 max(ciclo.testigos$e.a.gd, na.rm = TRUE)
 min(ciclo.testigos$e.a.gd, na.rm = TRUE)
@@ -171,7 +172,7 @@ ciclo.testigos$bloque <- as.factor (ciclo.testigos$bloque)
 ciclo.testigos$env <- as.factor (ciclo.testigos$env)
 
 list.geno <- c("Kenia","Prior","Logan",  
-               "Baronesse","Berolina",
+               "Baronesse",
                "Bowman","Quebracho",   
                "Danuta", "Carumbe","Ceibo") 
 
@@ -241,6 +242,8 @@ contrastes_z31.a.gd <- run_contrastes (data.model = z31.a.gd.mod.1, trait = "z31
 
  write_csv2 (contrastes_suma_termica, file= "./Data/procdata/contrastes_suma_termica.csv")
 
+ 
+ ###############3 hasat cas el 27 /10/2021
 em.e.a.gd.Kenia <- emmeans (e.a.gd.mod.1, "env",
                                      at = list (genotipo = "Kenia"))
 
