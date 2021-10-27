@@ -122,13 +122,15 @@ testigos <- c("testigo1","testigo2","testigo3","testigo4",
               "testigo9","testigo10")
 
 tes.geno <- c("Kenia","Prior","Logan",  
-              "Baronesse","Berolina",
+              "Baronesse",
               "Bowman","Quebracho",   
               "Danuta", "Carumbe","Ceibo") 
 
 ciclo.testigos <- ciclo.gd %>% 
                   dplyr::filter (genotipo %in% tes.geno) %>%
                   dplyr::filter (genotipo != "Berolina")
+
+unique (ciclo.testigos$genotipo)
 
 max(ciclo.testigos$e.a.gd, na.rm = TRUE)
 min(ciclo.testigos$e.a.gd, na.rm = TRUE)
@@ -242,27 +244,6 @@ contrastes_z31.a.gd <- run_contrastes (data.model = z31.a.gd.mod.1, trait = "z31
 
  write_csv2 (contrastes_suma_termica, file= "./Data/procdata/contrastes_suma_termica.csv")
 
- 
- ###############3 hasat cas el 27 /10/2021
-em.e.a.gd.Kenia <- emmeans (e.a.gd.mod.1, "env",
-                                     at = list (genotipo = "Kenia"))
-
-
-
-
-
-em.e.a.gd.Kenia <- cbind (genotipo = "Kenia", parametro ="e.a.gd",
-                          cld (em.e.a.gd.Kenia, sort=FALSE))
-
-
-
-
-
-
-
-
-
-
 
 e.a.gd.mod.1.em <- emmeans (e.a.gd.mod.1, ~ genotipo*env)
 
@@ -274,19 +255,10 @@ e.a.gd.mod.1.sum.1 <- e.a.gd.mod.1.sum %>%
                      dplyr::mutate (e.a.gd = e.a.gd.mod.1.sum$emmean) %>%
                      dplyr::select (genotipo, env, e.a.gd,SE, lower.CL, upper.CL)
 
-
-
-
 write.table (e.a.gd.mod.1.sum.1, file = "./Data/procdata/e.a.gd.mod.1.sum.1.txt", 
              append = FALSE, quote = TRUE, sep = ",",
              eol = "\n", na = "NA", dec = ".", row.names = FALSE,
              col.names = TRUE)
-
-unique (e.a.gd.mod.1.em$)
-
-
-
-
 
 
 
@@ -363,12 +335,7 @@ plot.5 <- ggbarplot (delta.gd.anio1 , x = "genotipo", y = "esta",
                  ylab = "paravos",
                  xlab = FALSE,
                  rotate = TRUE
-                 ,legend.title = "genotipo")
-
-ggarrange(plot.5, plot.6, ncol=2, nrow=1, common.legend = TRUE )
-
-
-
+                 ,legend.title = "genotipo") 
 
 e.a.gd.anio2.3 <- e.a.gd.mod.1.sum.2 %>%
                   dplyr::filter (env == "E3")
@@ -395,6 +362,7 @@ plot.6 <- ggbarplot (delta.gd.anio2 , x = "genotipo", y = "esta",
                 geom_vline (xintercept = 400, linetype = 2)
                  
 
+ggarrange(plot.5, plot.6, ncol=2, nrow=1, common.legend = TRUE )
 
 
 ##E1.ciclo.gd
